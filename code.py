@@ -2,10 +2,17 @@
 
 import os
 
-works = {
+from colorama import init
+from termcolor import colored
+
+init(autoreset=True)
+
+
+Suggestions = {
     'CREAT BANK ACCOUNT' : True,
     'TRANSFER' : True,
     'WITHDRAW': True
+    #'ACCOUNT BALANCE': True
 }
 
 def clear_screen():
@@ -52,7 +59,7 @@ def check_national_code():
    
 
 def creat_bank_account():
-    if works['CREAT BANK ACCOUNT'] : clear_screen()
+    if Suggestions['CREAT BANK ACCOUNT'] : clear_screen()
     print('---CREAT BANK ACCOUNT---')
     name = check_user_name()
     last_name = check_user_last_name()
@@ -60,6 +67,9 @@ def creat_bank_account():
     national_code = check_national_code()
     print(f"\naccount was created succsessfuly.")
     print(f"{name} {last_name}'s account with national code: {national_code} and {amount} dollars was created.")
+    with open('python.txt' , 'a') as creat:
+        creat.write(f"{name} {last_name}'s account with national code: {national_code} and {amount} dollars was created.\n")
+
 
 
 
@@ -86,18 +96,20 @@ def check_amount_to_transfer():
 
 
 def transfer():
-    if works['TRANSFER'] : clear_screen()
+    if Suggestions['TRANSFER'] : clear_screen()
     print('---TRANSFER---')
     name_transfer = check_name_to_transfer()
     amount_transfer = check_amount_to_transfer()
     print(f"{amount_transfer} dollars was transfered to the {name_transfer}'s account.")
+    with open('python.txt' , 'a') as transfer:
+        transfer.write(f"{amount_transfer} dollars was transfered to the {name_transfer}'s account.\n")
 
 
 
 
 def check_amount_to_withdraw():
     while True:
-        user_amount_to_withdraw = input('Enter amount to with draw:')
+        user_amount_to_withdraw = input('Enter amount to withdraw:')
         if user_amount_to_withdraw.isdigit():
             if int(user_amount_to_withdraw) > 0:
                 return user_amount_to_withdraw
@@ -108,35 +120,41 @@ def check_amount_to_withdraw():
 
 
 def withdraw():
-    if works['WITHDRAW'] : clear_screen()
+    if Suggestions['WITHDRAW'] : clear_screen()
     amount = check_amount_to_withdraw()
     print(f"{amount} dollars withdrew from your account.")
+    with open('python.txt' , 'a') as withdraw:
+        withdraw.write(f"{amount} dollars withdrew from your account.")
 
 
 def run_complete():
-    print('---WELCOME TO MY BANK---')
-    print('1.CREAT BANK ACCOUNT')
-    print('2.TRANSFER')
-    print('3.WITHDRAW')
-    choice = input('Enter your choice (1 , 2 , 3):')
-    clear_screen()
-    if choice == '1':
-        creat_bank_account()
-    elif choice == '2':
-        transfer()
-    elif choice == '3':
-        withdraw()
-    else:
-        print('NOTHING WAS DONE!')
+    print(colored('--- WELCOME TO MY BANK ---', 'yellow'))
+    print(colored('1. CREAT BANK ACCOUNT', 'blue'))
+    print(colored('2. TRANSFER', 'red'))
+    print(colored('3. WITHDRAW', 'green'))
+    #print('4.ACCOUNT BALANCE')
+    while True:
+        choice = input('Enter your choice (1 , 2 , 3):')
+        clear_screen()
+        if choice == '1':
+            creat_bank_account()
+        elif choice == '2':
+            transfer()
+        elif choice == '3':
+            withdraw()
+        else:
+            print('CHOICE SHOULD BE 1 , 2 ,3')
 
 run_complete()
 
-def continue_works():
-    continue_input = input('do you want to continue?')
-    if continue_input == 'yes':
-        clear_screen()
-        return run_complete()
-    elif continue_input == 'no':
-        print('THANKS FOR CHOSSING US')
-
-continue_works()
+def continue_Suggestions():
+    while True:
+        continue_input = input('do you want to continue?')
+        if continue_input == 'yes':
+            clear_screen()
+            return run_complete()
+        elif continue_input == 'no':
+            print('THANKS FOR CHOSSING OUR BANK')
+            break
+        
+continue_Suggestions()
